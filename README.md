@@ -13,3 +13,7 @@ The constructor of each sort should take three arguments, in order:
   short: the millisecond delay between each iteration of the sort.
   
 Any questions, let me know. Opening issues would be the easiest way to track things.
+
+One more note, commit to your own branch! Name it whatever your heart desires, but please don't commit to master. Only I get to do that :)
+
+Ohh, and don't forget to create a pull requeset. I trust that you are all grown men and can handle conflicts.
