@@ -1,0 +1,144 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            
+            <TextView
+                android:id="@+id/elementsTitle"
+                style="@style/descriptionText"
+                android:text="@string/elementsTitle" />
+            
+            <SeekBar
+                android:id="@+id/totalElements"
+                style="@style/seekbar"
+                android:layout_below="@id/elementsTitle" />
+            
+            <TextView
+                android:id="@+id/updateTitle"
+                style="@style/descriptionText"
+                android:text="@string/updateTitle"
+                android:layout_below="@id/totalElements" />
+
+            <SeekBar
+                android:id="@+id/updateInterval"
+                style="@style/seekbar"
+                android:layout_below="@+id/updateTitle" />
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/updateInterval">
+
+                <RadioGroup
+                    android:id="@+id/selectedSort"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="5" >
+    
+                    <RadioButton
+                        android:id="@+id/quickSort"
+                        style="@style/radioButton"
+                        android:checked="true"
+                        android:text="@string/quickSort" />
+    
+                    <RadioButton
+                        android:id="@+id/insertionSort"
+                        style="@style/radioButton"
+                        android:text="@string/insertionSort" />
+    
+                    <RadioButton
+                        android:id="@+id/heapSort"
+                        style="@style/radioButton"
+                        android:text="@string/heapSort" />
+    
+                    <RadioButton
+                        android:id="@+id/bubbleSort"
+                        style="@style/radioButton"
+                        android:text="@string/bubbleSort" />
+    
+                    <RadioButton
+                        android:id="@+id/bogoSort"
+                        style="@style/radioButton"
+                        android:text="@string/bogoSort" />
+    
+                    <RadioButton
+                        android:id="@+id/selectionSort"
+                        style="@style/radioButton"
+                        android:text="@string/selectionSort" />
+    
+                    <RadioButton
+                        android:id="@+id/shellSort"
+                        style="@style/radioButton"
+                        android:text="@string/shellSort" />
+    
+                    <RadioButton
+                        android:id="@+id/radixSort"
+                        style="@style/radioButton"
+                        android:text="@string/radixSort" />
+    
+                    <RadioButton
+                        android:id="@+id/bitonicSort"
+                        style="@style/radioButton"
+                        android:text="@string/bitonicSort" />
+    
+                    <RadioButton
+                        android:id="@+id/mergeSort"
+                        style="@style/radioButton"
+                        android:text="@string/mergeSort" />
+                    
+                </RadioGroup>
+                
+                <View
+                  android:layout_width="1dp"
+                  android:layout_height="fill_parent"
+                  android:background="#FFFFFFFF" />
+    
+                <RadioGroup
+                    android:id="@+id/selectedItemOrder"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="5" >
+                    
+                    <RadioButton
+                        android:id="@+id/sorted"
+                        style="@style/radioButton"
+                        android:text="@string/sorted" />
+    
+                    <RadioButton
+                        android:id="@+id/nearSorted"
+                        style="@style/radioButton"
+                        android:text="@string/nearSorted" />
+    
+                    <RadioButton
+                        android:id="@+id/reverse"
+                        style="@style/radioButton"
+                        android:text="@string/reverse" />
+                    
+                    <RadioButton
+                        android:id="@+id/random"
+                        style="@style/radioButton"
+                        android:checked="true"
+                        android:text="@string/random" />
+                </RadioGroup>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/submitButton"
+        style="@style/mainActivityButton"
+        android:layout_weight="1"
+        android:text="@string/submit" />
+
+</LinearLayout>

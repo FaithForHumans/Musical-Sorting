@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Musical Sorting</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="submit">Submit</string>
+    <string name="quickSort">Quick Sort</string>
+    <string name="insertionSort">Insertion Sort</string>
+    <string name="heapSort">Heap Sort</string>
+    <string name="sorted">Already Sorted</string>
+    <string name="nearSorted">Almost sorted</string>
+    <string name="reverse">Sorted in reverse</string>
+    <string name="random">Randomly sorted</string>
+    <string name="elementsTitle">Number of elements to sort</string>
+    <string name="updateTitle">Delay between update intervals</string>
+    <string name="mergeSort">Merge Sort</string>
+    <string name="bogoSort">Bogo Sort</string>
+    <string name="bitonicSort">Bitonic Sort</string>
+    <string name="radixSort">Radix Sort</string>
+    <string name="shellSort">Shell Sort</string>
+    <string name="selectionSort">Selection Sort</string>
+    <string name="bubbleSort">Bubble Sort</string>
+
+</resources>
