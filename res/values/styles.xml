@@ -46,7 +46,8 @@
         parent="@android:Theme.Holo" >
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:paddingRight">5sp</item>
     </style>
     
     <style
@@ -54,7 +55,16 @@
         parent="@android:Theme.Holo" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingBottom">15dp</item>
+    </style>
+    
+    <style
+        name="seekbarText"
+        parent="@android:Theme.Holo" >
+        	<item name="android:layout_width">75sp</item>
+            <item name="android:layout_height">wrap_content</item>
+            <item name="android:ems">10</item>
+            <item name="android:inputType">number</item>
+            <item name="android:gravity">center</item>
     </style>
      
 

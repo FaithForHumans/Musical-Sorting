@@ -12,8 +12,8 @@
     <string name="nearSorted">Almost sorted</string>
     <string name="reverse">Sorted in reverse</string>
     <string name="random">Randomly sorted</string>
-    <string name="elementsTitle">Number of elements to sort</string>
-    <string name="updateTitle">Delay between update intervals</string>
+    <string name="elementsTitle">Number of elements to sort: </string>
+    <string name="updateTitle">Delay between update intervals: </string>
     <string name="mergeSort">Merge Sort</string>
     <string name="bogoSort">Bogo Sort</string>
     <string name="bitonicSort">Bitonic Sort</string>
@@ -21,5 +21,7 @@
     <string name="shellSort">Shell Sort</string>
     <string name="selectionSort">Selection Sort</string>
     <string name="bubbleSort">Bubble Sort</string>
+    <string name="numElements">500</string>
+    <string name="updateLength">10</string>
 
 </resources>
