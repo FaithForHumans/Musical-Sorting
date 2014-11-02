@@ -9,36 +9,59 @@
         android:layout_height="0dp"
         android:layout_weight="9" >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-            
-            <TextView
-                android:id="@+id/elementsTitle"
-                style="@style/descriptionText"
-                android:text="@string/elementsTitle" />
-            
-            <SeekBar
-                android:id="@+id/totalElements"
-                style="@style/seekbar"
-                android:layout_below="@id/elementsTitle" />
-            
-            <TextView
-                android:id="@+id/updateTitle"
-                style="@style/descriptionText"
-                android:text="@string/updateTitle"
-                android:layout_below="@id/totalElements" />
-
-            <SeekBar
-                android:id="@+id/updateInterval"
-                style="@style/seekbar"
-                android:layout_below="@+id/updateTitle" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
             
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_below="@+id/updateInterval">
+                android:gravity="center"
+                android:orientation="horizontal" >
+                
+	            <TextView
+	                android:id="@+id/elementsTitle"
+	                style="@style/descriptionText"
+	                android:text="@string/elementsTitle" />
+            
+                <EditText
+                    android:id="@+id/numElements"
+                    style="@style/seekbarText"
+                    android:text="@string/numElements" />
+                
+            </LinearLayout>
+            
+            <SeekBar
+                android:id="@+id/totalElements"
+                style="@style/seekbar" />
+
+           	<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+	                
+	            <TextView
+	                android:id="@+id/updateTitle"
+	                style="@style/descriptionText"
+	                android:text="@string/updateTitle" />
+	        
+	            <EditText
+	                android:id="@+id/updateLength"
+	                style="@style/seekbarText"
+	                android:text="@string/updateLength" />
+	            
+	        </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/updateInterval"
+                style="@style/seekbar" />
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
 
                 <RadioGroup
                     android:id="@+id/selectedSort"
@@ -109,30 +132,30 @@
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="5" >
+    
+                    <RadioButton
+                        android:id="@+id/randomSorted"
+                        style="@style/radioButton"
+                        android:checked="true"
+                        android:text="@string/random" />
                     
                     <RadioButton
-                        android:id="@+id/sorted"
+                        android:id="@+id/reverseSorted"
                         style="@style/radioButton"
-                        android:text="@string/sorted" />
-    
+                        android:text="@string/reverse" />
+                    
                     <RadioButton
                         android:id="@+id/nearSorted"
                         style="@style/radioButton"
                         android:text="@string/nearSorted" />
     
                     <RadioButton
-                        android:id="@+id/reverse"
+                        android:id="@+id/sorted"
                         style="@style/radioButton"
-                        android:text="@string/reverse" />
-                    
-                    <RadioButton
-                        android:id="@+id/random"
-                        style="@style/radioButton"
-                        android:checked="true"
-                        android:text="@string/random" />
+                        android:text="@string/sorted" />
                 </RadioGroup>
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 
     <Button

@@ -24,3 +24,6 @@ proguard/
 
 # Log Files
 *.log
+
+# upload the apk
+!bin/MusicalSorting.apk
