@@ -14,6 +14,7 @@ public class MainActivity extends Activity {
   
   public int[] arrayToSort;
   public int arrayLength;
+  public short threadUpdateLength;
   
   private EditText numElements;
   private EditText updateLength;
@@ -36,7 +37,7 @@ public class MainActivity extends Activity {
     //initialize the array to sort to null
     arrayLength = 0;
     arrayToSort = null;
-    
+    //seed the random number generator
     randomGenerator = new Random();
   }
 
@@ -63,6 +64,7 @@ public class MainActivity extends Activity {
   private void onSubmit() {
     arrayLength = Integer.parseInt( numElements.getText().toString() );
     arrayToSort = new int[arrayLength];
+    threadUpdateLength = Short.parseShort( updateLength.getText().toString() );
     
     switch ( selectedItemOrder.getCheckedRadioButtonId() ) {
     case (R.id.randomSorted):
@@ -86,31 +88,31 @@ public class MainActivity extends Activity {
       //TODO
       break;
     case (R.id.bogoSort):
-    //TODO
+      //TODO
       break;
     case (R.id.bubbleSort):
-    //TODO
+      //TODO
       break;
     case (R.id.heapSort):
-    //TODO
+      //TODO
       break;
     case (R.id.insertionSort):
-    //TODO
+      //TODO
       break;
     case (R.id.mergeSort):
-    //TODO
+      //TODO
       break;
     case (R.id.quickSort):
-    //TODO
+      //TODO
       break;
     case (R.id.radixSort):
-    //TODO
+      //TODO
       break;
     case (R.id.selectionSort):
-    //TODO
+      //TODO
       break;
     case (R.id.shellSort):
-    //TODO
+      //TODO
       break;
     default:
       Toast.makeText(this, "Umm... You broke something! :D", Toast.LENGTH_SHORT).show();
@@ -119,7 +121,7 @@ public class MainActivity extends Activity {
   
   private void makeSortedArray() {
     for(int s = 0; s < arrayLength; s++) {
-      arrayToSort[s] = (s+1);
+      arrayToSort[s] = (s + 1);
     }
   }
   
@@ -152,6 +154,6 @@ public class MainActivity extends Activity {
   }
   
   private int nextRandom(int min, int max) {
-    return randomGenerator.nextInt(max - min +1) + min;
+    return randomGenerator.nextInt(max - min + 1) + min;
   }
 }
