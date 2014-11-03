@@ -1,9 +1,11 @@
 package com.sprogel.musicalSorting;
 
 import java.util.Random;
+import java.util.TimerTask;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -11,6 +13,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+  
+  private Random randomGenerator;
+  private String MAIN_ACTIVITY_TAG = "Main Activity";
   
   public int[] arrayToSort;
   public int arrayLength;
@@ -21,7 +26,10 @@ public class MainActivity extends Activity {
   private RadioGroup selectedSort;
   private RadioGroup selectedItemOrder;
   
-  private Random randomGenerator;
+  private SortController sortController;
+  private Thread sortThread;
+  private UpdateSortView sortingView;
+  public Object syncToken;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +90,8 @@ public class MainActivity extends Activity {
     default:
       Toast.makeText(this, "You broke something... :D", Toast.LENGTH_SHORT).show();
     }
+    
+    syncToken = new Object();
     
     switch ( selectedSort.getCheckedRadioButtonId() ) {
     case (R.id.bitonicSort):
@@ -155,5 +165,22 @@ public class MainActivity extends Activity {
   
   private int nextRandom(int min, int max) {
     return randomGenerator.nextInt(max - min + 1) + min;
+  }
+  
+  private class SortController extends TimerTask {
+    
+    @Override
+    public void run() {
+      try {
+        if( sortThread.isAlive() ) {
+          sortThread.wait();
+          sortingView.invalidate();
+          
+        } // end if
+      } catch ( InterruptedException e ) {
+        Toast.makeText(getApplicationContext(), "Failed to pause the sorting thread.", Toast.LENGTH_SHORT).show();
+        Log.e( MAIN_ACTIVITY_TAG, "Failed to pause sorting thread.\n" + e.toString() );
+      }
+    }
   }
 }
