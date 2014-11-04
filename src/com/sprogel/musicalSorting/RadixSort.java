@@ -1,11 +1,17 @@
+package com.sprogel.musicalSorting;
+
 import java.util.Arrays;
 import java.util.LinkedList;
+
+import android.util.Log;
 
 public class RadixSort extends Thread
 {
     int length;
     int[] array;
     short delay;
+    
+    private final String RADIX_SORT_TAG = "Radix Sort";
     
     int maxDigitSymbols;
  
@@ -52,7 +58,9 @@ public class RadixSort extends Thread
                 while ((value = counter[j].poll()) != null) {
                     try{
                         Thread.sleep(delay);
-                    }catch(InterruptedException e){}
+                    }catch(InterruptedException e){
+                      Log.w(RADIX_SORT_TAG, "Unable to pause Radix Sort.\n" + e.toString() );
+                    }
                     array[pos++] = value;
                 }
             }

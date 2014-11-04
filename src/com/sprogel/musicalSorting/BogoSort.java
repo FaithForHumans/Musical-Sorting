@@ -1,8 +1,14 @@
+package com.sprogel.musicalSorting;
+
+import android.util.Log;
+
 public class BogoSort extends Thread
 {
   int length;
   int[] array;
   short delay;
+  
+  private final String BOGO_SORT_TAG = "Bogo Sort";
   
   public BogoSort(int l, int[] a, short d)
   {
@@ -17,8 +23,10 @@ public class BogoSort extends Thread
     {
 	    shuffle(array);
         try{
-        Thread.sleep(delay);
-        }catch(InterruptedException e){}
+          Thread.sleep(delay);
+        }catch(InterruptedException e){
+          Log.w(BOGO_SORT_TAG, "Unable to Pause BogoSort.\n" + e.toString() );
+        }
     }
   }
   
