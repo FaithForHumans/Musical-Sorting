@@ -5,11 +5,11 @@ public class BogoSort extends Thread
   short delay;
   
   public BogoSort(int l, int[] a, short d)
-	{
+  {
     length = l;
     array = a;
     delay = d;
-	}
+  }
   
   public void run()
   {
@@ -22,28 +22,28 @@ public class BogoSort extends Thread
     }
   }
   
-	void shuffle(int[] array)
-	{
-		//Standard Fisher-Yates shuffle algorithm
-		int i = array.length-1;
-		while(i > 0)
-			swap(array, i--, (int)(Math.random()*i));
-	}
+  void shuffle(int[] array)
+  {
+    //Standard Fisher-Yates shuffle algorithm
+    int i = array.length-1;
+    while(i > 0)
+	swap(array, i--, (int)(Math.random()*i));
+  }
   
-	void swap(int[] array,int i,int j)
-	{
-		int temp = array[i];
-		array[i] = array[j];
-		array[j] = temp;
-	}
+  void swap(int[] array,int i,int j)
+  {
+    int temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
   
-	boolean isSorted(int[] array)
-	{
-		for(int i = 1; i < length; i++)
+  boolean isSorted(int[] array)
+  {
+    for(int i = 1; i < length; i++)
     {
-			if(array[i] < array[i-1])
-				return false;
+	if(array[i] < array[i-1])
+          return false;
     }
-		return true;
-	}
+    return true;
+  }
 }
