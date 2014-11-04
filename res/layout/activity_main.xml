@@ -1,13 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
-
+    android:orientation="vertical" 
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
+    
+    <Button
+        android:id="@+id/submitButton"
+        style="@style/mainActivityButton"
+        android:layout_alignParentBottom="true"
+        android:text="@string/submit" />
+    
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9" >
+        android:layout_height="wrap_content"
+        android:layout_above="@id/submitButton" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,32 +76,47 @@
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="5" >
-    
+
+                    <RadioButton
+                        android:id="@+id/bitonicSort"
+                        style="@style/radioButton"
+                        android:text="@string/bitonicSort" />
+
+                    <RadioButton
+                        android:id="@+id/bogoSort"
+                        style="@style/radioButton"
+                        android:text="@string/bogoSort" />
+
+                    <RadioButton
+                        android:id="@+id/bubbleSort"
+                        style="@style/radioButton"
+                        android:text="@string/bubbleSort" />
+
+                    <RadioButton
+                        android:id="@+id/insertionSort"
+                        style="@style/radioButton"
+                        android:text="@string/insertionSort" />
+
+                    <RadioButton
+                        android:id="@+id/heapSort"
+                        style="@style/radioButton"
+                        android:text="@string/heapSort" />
+
+                    <RadioButton
+                        android:id="@+id/mergeSort"
+                        style="@style/radioButton"
+                        android:text="@string/mergeSort" />
+
                     <RadioButton
                         android:id="@+id/quickSort"
                         style="@style/radioButton"
                         android:checked="true"
                         android:text="@string/quickSort" />
-    
+
                     <RadioButton
-                        android:id="@+id/insertionSort"
+                        android:id="@+id/radixSort"
                         style="@style/radioButton"
-                        android:text="@string/insertionSort" />
-    
-                    <RadioButton
-                        android:id="@+id/heapSort"
-                        style="@style/radioButton"
-                        android:text="@string/heapSort" />
-    
-                    <RadioButton
-                        android:id="@+id/bubbleSort"
-                        style="@style/radioButton"
-                        android:text="@string/bubbleSort" />
-    
-                    <RadioButton
-                        android:id="@+id/bogoSort"
-                        style="@style/radioButton"
-                        android:text="@string/bogoSort" />
+                        android:text="@string/radixSort" />
     
                     <RadioButton
                         android:id="@+id/selectionSort"
@@ -104,21 +127,6 @@
                         android:id="@+id/shellSort"
                         style="@style/radioButton"
                         android:text="@string/shellSort" />
-    
-                    <RadioButton
-                        android:id="@+id/radixSort"
-                        style="@style/radioButton"
-                        android:text="@string/radixSort" />
-    
-                    <RadioButton
-                        android:id="@+id/bitonicSort"
-                        style="@style/radioButton"
-                        android:text="@string/bitonicSort" />
-    
-                    <RadioButton
-                        android:id="@+id/mergeSort"
-                        style="@style/radioButton"
-                        android:text="@string/mergeSort" />
                     
                 </RadioGroup>
                 
@@ -158,10 +166,4 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/submitButton"
-        style="@style/mainActivityButton"
-        android:layout_weight="1"
-        android:text="@string/submit" />
-
-</LinearLayout>
+</RelativeLayout>
