@@ -1,6 +1,7 @@
 package com.sprogel.musicalSorting;
 
 import java.util.Random;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
@@ -26,7 +27,7 @@ public class MainActivity extends Activity {
   private RadioGroup selectedSort; // group for the sort to be used
   private RadioGroup selectedItemOrder; // group for the original item order
   
-  private SortController sortController; // the timer that controls updating the view
+  private Timer sortTimer; // the timer that sets the update lentgh
   private Thread sortThread; // the thread that contains the sort to be ran
   public Object syncToken; // the token that controls sortThread wait and notify
   private UpdateSortView sortView; // the view that draws the visual representation o the screen
@@ -127,6 +128,10 @@ public class MainActivity extends Activity {
     default:
       Toast.makeText(this, "Umm... You broke something! :D", Toast.LENGTH_SHORT).show();
     } // end switch(selectedSort)
+    
+    sortThread.run();
+    sortTimer = new Timer();
+    sortTimer.scheduleAtFixedRate(new SortController(), 0, threadUpdateLength);
   } // end onSubmit
   
   private void makeSortedArray() {
@@ -149,11 +154,11 @@ public class MainActivity extends Activity {
   } // end makeRandomSortedArray()
 
   private void makeNearlySortedArray() {
-    final short RANDOM_OFFSET = 4;
+    final short MAX_RANDOM_OFFSET = 4;
     
     makeSortedArray();
-    for(int s = 0; s < arrayLength - RANDOM_OFFSET; s++) {
-      swap(arrayToSort[s], arrayToSort[ s + nextRandom(0, RANDOM_OFFSET) ] );
+    for(int s = 0; s < arrayLength - MAX_RANDOM_OFFSET; s++) {
+      swap(arrayToSort[s], arrayToSort[ s + nextRandom(0, MAX_RANDOM_OFFSET) ] );
     } // end for
   } // end makeNearlySortedArray
   
@@ -177,6 +182,7 @@ public class MainActivity extends Activity {
         else {
           sortView.sortCompleted();
           sortView.invalidate();
+          sortTimer.cancel();
         } // end else
         
       } catch ( InterruptedException e ) {
