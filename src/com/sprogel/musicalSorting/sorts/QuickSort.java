@@ -1,3 +1,5 @@
+package com.sprogel.musicalSorting.sorts;
+
 import java.util.Arrays;
 
 public class QuickSort extends Thread

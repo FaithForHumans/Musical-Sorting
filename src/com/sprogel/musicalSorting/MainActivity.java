@@ -4,6 +4,11 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.sprogel.musicalSorting.sorts.BogoSort;
+import com.sprogel.musicalSorting.sorts.MergeSort;
+import com.sprogel.musicalSorting.sorts.QuickSort;
+import com.sprogel.musicalSorting.sorts.RadixSort;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -111,10 +116,10 @@ public class MainActivity extends Activity {
       //TODO
       break;
     case (R.id.mergeSort):
-      //TODO
+      sortThread = new MergeSort(arrayToSort, arrayLength, threadUpdateLength);
       break;
     case (R.id.quickSort):
-      //TODO
+      sortThread = new QuickSort(arrayToSort, arrayLength, threadUpdateLength);
       break;
     case (R.id.radixSort):
       sortThread = new RadixSort(arrayLength, arrayToSort, threadUpdateLength);

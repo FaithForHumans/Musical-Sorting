@@ -1,3 +1,5 @@
+package com.sprogel.musicalSorting.sorts;
+
 import java.util.*;
 
 public class MergeSort extends Thread
