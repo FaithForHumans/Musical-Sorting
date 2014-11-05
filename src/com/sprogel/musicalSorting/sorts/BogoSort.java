@@ -1,4 +1,4 @@
-package com.sprogel.musicalSorting;
+package com.sprogel.musicalSorting.sorts;
 
 import android.util.Log;
 
