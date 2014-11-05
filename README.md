@@ -33,8 +33,9 @@ Constructor(int, int[], short, Object token) {
 }
 ```
 
-Q. Okay Spencer you may be asking, we added this cool syncToken, so what's it for? Does it just sit there?
-A. Well I'm glad you asked! I'm about to tell you! in your run method, modify it like so:
+*Q.* Okay Spencer you may be asking, we added this cool syncToken, so what's it for? Does it just sit there?
+
+*A.* Well I'm glad you asked! I'm about to tell you! in your run method, modify it like so:
 ```
 public void run() {
   synchronized (syncToken) {
@@ -43,13 +44,16 @@ public void run() {
 } // end run()
 ```
 
-Q. Great! That's it?
-A. Heh. Nice try. Two more quick things.
+*Q.* Great! That's it?
+
+*A.* Heh. Nice try. Two more quick things.
+
 1. I've moved where you're dropping sorts. Same directory as before, just drop it in an internal sorts folder. so the updated directory is /src/com/sprogel/musicalSorting/sorts
 2. At the top of your code when you push it, include the following line at the very top above your imports / constructor so I don't have to add it.
 ```
 package com.sprogel.musicalSorting;
 ```
 
-Q. Ugh. Stop changing stuff. Is that it?
-A. If someone wants to do my sorts for me, that would be great :)
+*Q.* Ugh. Stop changing stuff. Is that it?
+
+*A.* If someone wants to do my sorts for me, that would be great :)
