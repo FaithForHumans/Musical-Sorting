@@ -104,7 +104,7 @@ public class MainActivity extends Activity {
       //TODO
       break;
     case (R.id.bogoSort):
-      sortThread = new BogoSort(arrayLength, arrayToSort, threadUpdateLength);
+      sortThread = new BogoSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
       break;
     case (R.id.bubbleSort):
       //TODO
@@ -116,13 +116,13 @@ public class MainActivity extends Activity {
       //TODO
       break;
     case (R.id.mergeSort):
-      sortThread = new MergeSort(arrayToSort, arrayLength, threadUpdateLength);
+      sortThread = new MergeSort(arrayToSort, arrayLength, threadUpdateLength, syncToken);
       break;
     case (R.id.quickSort):
-      sortThread = new QuickSort(arrayToSort, arrayLength, threadUpdateLength);
+      sortThread = new QuickSort(arrayToSort, arrayLength, threadUpdateLength, syncToken);
       break;
     case (R.id.radixSort):
-      sortThread = new RadixSort(arrayLength, arrayToSort, threadUpdateLength);
+      sortThread = new RadixSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
       break;
     case (R.id.selectionSort):
       //TODO
@@ -181,8 +181,11 @@ public class MainActivity extends Activity {
     public void run() {
       try {
         if( sortThread.isAlive() ) {
-          sortThread.wait();
+          syncToken.wait();
           sortView.invalidate();
+          synchronized (syncToken) {
+            syncToken.notifyAll();
+          } // end synchronized (syncToken)
         } // end if
         else {
           sortView.sortCompleted();

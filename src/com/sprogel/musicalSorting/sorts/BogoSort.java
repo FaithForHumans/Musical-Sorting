@@ -7,14 +7,16 @@ public class BogoSort extends Thread
   int length;
   int[] array;
   short delay;
+  public Object syncToken;
   
   private final String BOGO_SORT_TAG = "Bogo Sort";
   
-  public BogoSort(int l, int[] a, short d)
+  public BogoSort(int l, int[] a, short d, Object token)
   {
     length = l;
     array = a;
     delay = d;
+    syncToken = token;
   }
   
   public void run()

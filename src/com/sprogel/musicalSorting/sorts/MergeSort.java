@@ -1,24 +1,26 @@
 package com.sprogel.musicalSorting.sorts;
 
-import java.util.*;
-
 public class MergeSort extends Thread
 {
-    int[] array;
-    int length;
-    short delay;
-    
-    public MergeSort(int[] a, int l, short d)
-    {
-        array = a;
-        length = l;
-        delay = d;
+  int[] array;
+  int length;
+  short delay;
+  public Object syncToken;
+  
+  public MergeSort(int[] a, int l, short d, Object token)
+  {
+    array = a;
+    length = l;
+    delay = d;
+    syncToken = token;
+  }
+  
+  public void run()
+  {
+    synchronized (syncToken) {
+      mergeSort(array);
     }
-    
-    public void run()
-    {
-        mergeSort(array);
-    }
+  }
 
 	public void mergeSort(int [ ] a)
 	{
@@ -39,31 +41,31 @@ public class MergeSort extends Thread
 	}
 
 
-    private void merge(int[ ] a, int[ ] tmp, int left, int right, int rightEnd )
+  private void merge(int[ ] a, int[ ] tmp, int left, int right, int rightEnd )
+  {
+    int leftEnd = right - 1;
+    int k = left;
+    int num = rightEnd - left + 1;
+
+    while(left <= leftEnd && right <= rightEnd)
     {
-        int leftEnd = right - 1;
-        int k = left;
-        int num = rightEnd - left + 1;
-
-        while(left <= leftEnd && right <= rightEnd)
-        {
-            if(a[left] <= a[right])
-                tmp[k++] = a[left++];
-            else
-                tmp[k++] = a[right++];
-            try{
-                Thread.sleep(delay);
-            }catch(InterruptedException e){}
-        }
-
-        while(left <= leftEnd)    // Copy rest of first half
-            tmp[k++] = a[left++];
-
-        while(right <= rightEnd)  // Copy rest of right half
-            tmp[k++] = a[right++];
-
-        // Copy tmp back
-        for(int i = 0; i < num; i++, rightEnd--)
-            a[rightEnd] = tmp[rightEnd];
+      if(a[left] <= a[right])
+        tmp[k++] = a[left++];
+      else
+        tmp[k++] = a[right++];
+      try{
+        Thread.sleep(delay);
+      }catch(InterruptedException e){}
     }
+
+    while(left <= leftEnd)  // Copy rest of first half
+      tmp[k++] = a[left++];
+
+    while(right <= rightEnd)  // Copy rest of right half
+      tmp[k++] = a[right++];
+
+    // Copy tmp back
+    for(int i = 0; i < num; i++, rightEnd--)
+      a[rightEnd] = tmp[rightEnd];
+  }
  }
