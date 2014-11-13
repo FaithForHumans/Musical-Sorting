@@ -1,4 +1,4 @@
-package com.sprogel.musicalSorting;
+package com.sprogel.musicalSorting.sorts;
 
 public class ShellSort extends Thread
 {

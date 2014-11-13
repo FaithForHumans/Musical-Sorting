@@ -1,4 +1,4 @@
-package com.sprogel.musicalSorting;
+package com.sprogel.musicalSorting.sorts;
 import java.lang.Thread;
 
 public class BubbleSort extends Thread

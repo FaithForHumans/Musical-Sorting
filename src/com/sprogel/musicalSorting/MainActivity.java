@@ -10,18 +10,23 @@ import com.sprogel.musicalSorting.sorts.QuickSort;
 import com.sprogel.musicalSorting.sorts.RadixSort;
 
 import android.app.Activity;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
   
   private Random randomGenerator; // random number generator
   private final String MAIN_ACTIVITY_TAG = "Main Activity"; // log purposes
+  private final short UDPATE_MAX = 20;
   
   public int[] arrayToSort; // array that needs to be sorted
   public int arrayLength; // array to be sorted length
@@ -31,6 +36,8 @@ public class MainActivity extends Activity {
   private EditText updateLength; // text field update delay length
   private RadioGroup selectedSort; // group for the sort to be used
   private RadioGroup selectedItemOrder; // group for the original item order
+  private SeekBar numElem; // Seekbar for the number of elements
+  private SeekBar updateLen; // Seekbar for the update length
   
   private Timer sortTimer; // the timer that sets the update lentgh
   private Thread sortThread; // the thread that contains the sort to be ran
@@ -47,6 +54,56 @@ public class MainActivity extends Activity {
     updateLength = (EditText) findViewById(R.id.updateLength);
     selectedSort = (RadioGroup) findViewById(R.id.selectedSort);
     selectedItemOrder = (RadioGroup) findViewById(R.id.selectedItemOrder);
+    numElem = (SeekBar) findViewById(R.id.totalElements);
+    updateLen = (SeekBar) findViewById(R.id.updateInterval);
+    
+    //Set the max values of the seekbars
+    Display display = getWindowManager().getDefaultDisplay();
+    Point pointSize = new Point();
+    display.getSize(pointSize);
+    numElem.setMax( pointSize.y );
+    updateLen.setMax(UDPATE_MAX);
+    
+    //Set the listeners for the seekbars
+    numElem.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+      int currentProgress = 0;
+      
+      @Override
+      public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        currentProgress = progress;
+      } // end onProgressChanged(SeekBar, int, boolean)
+
+      //No need to do anything when start touched
+      @Override
+      public void onStartTrackingTouch(SeekBar seekBar) { }
+
+      //Update the values when released
+      @Override
+      public void onStopTrackingTouch(SeekBar seekBar) {
+        numElements.setText( String.valueOf(currentProgress) );
+      } // end onStopTrackingTouch(SeekBar)
+    }); // end OnSeekBarChangeListner
+    updateLen.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+      int currentProgress = 0;
+      
+      @Override
+      public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        currentProgress = progress;
+      } // end onProgressChanged(SeekBar, int, boolean)
+
+      //No need to do anything when start touched
+      @Override
+      public void onStartTrackingTouch(SeekBar seekBar) { }
+
+      //Update the values when released
+      @Override
+      public void onStopTrackingTouch(SeekBar seekBar) {
+        updateLength.setText( String.valueOf(currentProgress) );
+      } // end onStopTrackingTouch(SeekBar)
+    }); // end OnSeekBarChangeListner
+    
+    numElem.setProgress(100);
+    updateLen.setProgress(10);
     
     //initialize the array to sort to null
     arrayLength = 0;
