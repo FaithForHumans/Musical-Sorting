@@ -1,4 +1,4 @@
-package com.sprogel.musicalSorting;
+package com.sprogel.musicalSorting.sorts;
 import java.lang.Thread;
 
 public class SelectionSort extends Thread
@@ -26,22 +26,21 @@ public class SelectionSort extends Thread
   private void sort()
   {
     int tmp, minIndex;
-      for (int i = 0; i < length - 1; i++) 
+    for (int i = 0; i < length - 1; i++) 
+    {
+      minIndex = i;
+      for (int j = i + 1; j < length; j++)
       {
-        minIndex = i;
-        for (int j = i + 1; j < length; j++)
+        if (array[j] < array[minIndex])
         {
-          if (array[j] < array[minIndex])
-          {
-            minIndex = j;
-          }
+          minIndex = j;
         }
-        if (minIndex != i) 
-        {
-          tmp = array[i];
-          array[i] = array[minIndex];
-          array[minIndex] = tmp;
-        }
+      }
+      if (minIndex != i) 
+      {
+        tmp = array[i];
+        array[i] = array[minIndex];
+        array[minIndex] = tmp;
       }
     }
   }
