@@ -14,12 +14,16 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -65,6 +69,7 @@ public class MainActivity extends Activity {
     updateLen.setMax(UDPATE_MAX);
     
     //Set the listeners for the seekbars
+    // listener for the number of elements seekbar
     numElem.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
       int currentProgress = 0;
       
@@ -83,6 +88,7 @@ public class MainActivity extends Activity {
         numElements.setText( String.valueOf(currentProgress) );
       } // end onStopTrackingTouch(SeekBar)
     }); // end OnSeekBarChangeListner
+    // listener for update Length seek bar
     updateLen.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
       int currentProgress = 0;
       
@@ -101,6 +107,20 @@ public class MainActivity extends Activity {
         updateLength.setText( String.valueOf(currentProgress) );
       } // end onStopTrackingTouch(SeekBar)
     }); // end OnSeekBarChangeListner
+
+    //listeners for text boxes
+    // number of elements text box
+    numElements.setOnEditorActionListener(new OnEditorActionListener() {
+      @Override
+      public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+          numElem.setProgress( Integer.parseInt( numElements.getText().toString() ) );
+          
+          return true;
+        } // end if
+        return false;
+      } // end onEditorAction(TextView, int, KeyEvent)
+    }); // end OnEditorActionListner()
     
     numElem.setProgress(100);
     updateLen.setProgress(10);
