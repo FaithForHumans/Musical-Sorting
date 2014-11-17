@@ -1,4 +1,4 @@
-package com.sprogel.musicalSorting;
+package com.sprogel.musicalSorting.sorts;
 import java.lang.Thread;
 
 public class SelectionSort extends Thread
@@ -6,6 +6,7 @@ public class SelectionSort extends Thread
   private int length, timeDelay;
   private int[] array;
   private Object syncToken;
+  private final String SELECTION_SORT_TAG = "Selection Sort";
 
   public SelectionSort(int len, int[] arr, int delay, Object token)
   {
@@ -26,22 +27,26 @@ public class SelectionSort extends Thread
   private void sort()
   {
     int tmp, minIndex;
-      for (int i = 0; i < length - 1; i++) 
+    for (int i = 0; i < length - 1; i++) 
+    {
+      minIndex = i;
+      for (int j = i + 1; j < length; j++)
       {
-        minIndex = i;
-        for (int j = i + 1; j < length; j++)
-        {
-          if (array[j] < array[minIndex])
-          {
-            minIndex = j;
-          }
+        try{
+              Thread.sleep(delay);
+        }catch(InterruptedException e){
+          Log.w(SELECTION_SORT_TAG, "Unable to pause Selection Sort.\n" + e.toString() );
         }
-        if (minIndex != i) 
+        if (array[j] < array[minIndex])
         {
-          tmp = array[i];
-          array[i] = array[minIndex];
-          array[minIndex] = tmp;
+          minIndex = j;
         }
+      }
+      if (minIndex != i) 
+      {
+        tmp = array[i];
+        array[i] = array[minIndex];
+        array[minIndex] = tmp;
       }
     }
   }
