@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import com.sprogel.musicalSorting.sorts.*;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
@@ -160,7 +161,6 @@ public class MainActivity extends Activity {
     return super.onOptionsItemSelected(item);
   } // end onOptionsSelected(MenuItem)
   
-  //TODO
   private void onSubmit() {
     arrayLength = Integer.parseInt( numElements.getText().toString() );
     arrayToSort = new int[arrayLength];
@@ -220,6 +220,11 @@ public class MainActivity extends Activity {
       Toast.makeText(this, "Umm... You broke something! :D", Toast.LENGTH_SHORT).show();
     } // end switch(selectedSort)
     
+    sortView = new UpdateSortView(this, arrayToSort, arrayLength);
+    sortView.setBackgroundColor( Color.BLACK );
+    setContentView(sortView);
+    
+    //start the sorting thread
     sortThread.run();
     sortTimer = new Timer();
     sortTimer.scheduleAtFixedRate(new SortController(), 0, threadUpdateLength);
