@@ -4,10 +4,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.sprogel.musicalSorting.sorts.BogoSort;
-import com.sprogel.musicalSorting.sorts.MergeSort;
-import com.sprogel.musicalSorting.sorts.QuickSort;
-import com.sprogel.musicalSorting.sorts.RadixSort;
+import com.sprogel.musicalSorting.sorts.*;
 
 import android.app.Activity;
 import android.graphics.Point;
@@ -17,7 +14,10 @@ import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -42,6 +42,7 @@ public class MainActivity extends Activity {
   private RadioGroup selectedItemOrder; // group for the original item order
   private SeekBar numElem; // Seekbar for the number of elements
   private SeekBar updateLen; // Seekbar for the update length
+  private Button submitButton;
   
   private Timer sortTimer; // the timer that sets the update lentgh
   private Thread sortThread; // the thread that contains the sort to be ran
@@ -60,6 +61,7 @@ public class MainActivity extends Activity {
     selectedItemOrder = (RadioGroup) findViewById(R.id.selectedItemOrder);
     numElem = (SeekBar) findViewById(R.id.totalElements);
     updateLen = (SeekBar) findViewById(R.id.updateInterval);
+    submitButton = (Button) findViewById(R.id.submitButton);
     
     //Set the max values of the seekbars
     Display display = getWindowManager().getDefaultDisplay();
@@ -121,6 +123,13 @@ public class MainActivity extends Activity {
         return false;
       } // end onEditorAction(TextView, int, KeyEvent)
     }); // end OnEditorActionListner()
+    //Listener for the on submit button
+    submitButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        onSubmit();
+      } // end onClick(View)
+    }); // end setOnClickListner(onClickListener)
     
     numElem.setProgress(100);
     updateLen.setProgress(10);
@@ -184,7 +193,7 @@ public class MainActivity extends Activity {
       sortThread = new BogoSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
       break;
     case (R.id.bubbleSort):
-      //TODO
+      sortThread = new BubbleSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
       break;
     case (R.id.heapSort):
       //TODO
@@ -202,10 +211,10 @@ public class MainActivity extends Activity {
       sortThread = new RadixSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
       break;
     case (R.id.selectionSort):
-      //TODO
+      sortThread = new SelectionSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
       break;
     case (R.id.shellSort):
-      //TODO
+      sortThread = new ShellSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
       break;
     default:
       Toast.makeText(this, "Umm... You broke something! :D", Toast.LENGTH_SHORT).show();
