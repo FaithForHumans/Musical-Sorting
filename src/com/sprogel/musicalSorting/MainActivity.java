@@ -49,10 +49,10 @@ public class MainActivity extends Activity {
   private SeekBar updateLen; // Seekbar for the update length
   private Button submitButton;
   
-  private Timer sortTimer; // the timer that sets the update lentgh
   private Thread sortThread; // the thread that contains the sort to be ran
   public Object syncToken; // the token that controls sortThread wait and notify
   private UpdateSortView sortView; // the view that draws the visual representation o the screen
+  private drawAllOfThePrettyColors endDraw;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +166,22 @@ public class MainActivity extends Activity {
     } // end if
     return super.onOptionsItemSelected(item);
   } // end onOptionsSelected(MenuItem)
+  
+  @Override
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+      if(sortView.getVisibility() == View.VISIBLE) {
+        setContentView(R.layout.activity_main);
+      }
+      else {
+        finish();
+      }
+      
+      return true;
+    }
+    
+    return super.onKeyDown(keyCode, event);
+  }
   
   private void onSubmit() {
     arrayLength = Integer.parseInt( numElements.getText().toString() );
@@ -304,53 +320,63 @@ public class MainActivity extends Activity {
       * delivers it the parameters given to AsyncTask.execute() */
     @Override
     protected Void doInBackground(Void... arg0) {
-      // TODO Auto-generated method stub
-      try {
-        Log.v("BLAH","Waiting...");
-        wait(30);
-      } catch (Exception e) {
-        Log.v( MAIN_ACTIVITY_TAG, "Error in background: " + e.toString() );
-      }
       return null;
     }
     
     /** The system calls this to perform work in the UI thread and delivers
       * the result from doInBackground() */
     protected void onPostExecute(Void arg0) {
-      sortView.invalidate();
+      if ( sortThread.isAlive() ) {
+        //redraw the view
+        sortView.invalidate();
+        
+        //request a new view update
+        new updateUiThread().execute();
+        
+        return;
+      } // end if
       
-      new updateUiThread().execute();
+      endDraw = new drawAllOfThePrettyColors( getApplicationContext(), arrayLength);
+      endDraw.setBackgroundColor( Color.BLACK );
+      setContentView(sortView);
+      
+      new EndDraw().execute();
       
       return;
-    }
-  }
-}
+    } // end onPostExecute(Void)
+  } // end class updateUiThread
   
-//  private class SortController extends TimerTask {
-//    
-//    @Override
-//    public void run() {
-//      /*
-//      try {
-//        if( sortThread.isAlive() ) {
-//          syncToken.wait();
-//          sortView.invalidate();
-//          synchronized (syncToken) {
-//            syncToken.notifyAll();
-//          } // end synchronized (syncToken)
-//        } // end if
-//        else {
-//          sortView.sortCompleted();
-//          sortView.invalidate();
-//          sortTimer.cancel();
-//        } // end else
-//        
-//      } catch ( InterruptedException e ) {
-//        Toast.makeText(getApplicationContext(), "Failed to pause the sorting thread.", Toast.LENGTH_SHORT).show();
-//        Log.e( MAIN_ACTIVITY_TAG, "Failed to pause sorting thread.\n" + e.toString() );
-//      } // end try catch
-//      */
-//      sortView.invalidate();
-//    } // end run()
-//  } // end class SortController
-//} //end class MainActivity
+  private class EndDraw extends AsyncTask<Void, Void, Void> {
+    @Override
+    protected Void doInBackground(Void... arg0) {
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      
+      return null;
+    }
+    
+    protected void onPostExecute(Void arg0) {
+      if ( endDraw.stopUpdatingMe() ) {
+        endDraw.invalidate();
+        try {
+          Thread.sleep(10);
+        } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+        setContentView(R.layout.activity_main);
+        return;
+      }
+      
+      endDraw.invalidate();
+      
+      new EndDraw().execute();
+      return;
+    } // end onPostExecute(Void)
+    
+  } // end class EndDraw
+} // end class MainActivity

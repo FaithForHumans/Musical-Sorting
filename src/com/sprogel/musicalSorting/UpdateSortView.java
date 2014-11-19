@@ -45,37 +45,23 @@ public class UpdateSortView extends View {
   @Override
   public void onDraw(Canvas canvas) {
     paint.setStrokeWidth(0);
-    if ( !sortHasBeenFinished ) {
-      paint.setColor(Color.WHITE);
-      for(int s = 0; s < arrayLength; s++) {
-        if ( arrayToDisplay[s] != lastDisplayedArray[s] ) {
-          paint.setColor(Color.RED);
-          
-          canvas.drawRect( (float)(0), (float) (s*scaleY), (float) (arrayToDisplay[s]*scaleX), (float) (s*scaleY+scaleY), paint);
-          //TODO play sound
-          
-          paint.setColor(Color.WHITE);
-          lastDisplayedArray[s] = arrayToDisplay[s];
-        } //end if
+    
+    paint.setColor(Color.WHITE);
+    for(int s = 0; s < arrayLength; s++) {
+      if ( arrayToDisplay[s] != lastDisplayedArray[s] ) {
+        paint.setColor(Color.RED);
         
-        else {
-          canvas.drawRect( (float)(0), (float) (s*scaleY), (float) (arrayToDisplay[s]*scaleX), (float) (s*scaleY+scaleY), paint);
-        } // end else
-      } // end for
-    } // end if
-    else {
-      paint.setColor( Color.parseColor(HOLO_BLUE) );
-      for( int s = 0; s < arrayLength; s++) {
-        canvas.drawRect( (float)(0), (float) (s*scaleY), (float) ((s+1)*scaleX), (float) (s*scaleY+scaleY), paint);
+        canvas.drawRect( (float)(0), (float) (s*scaleY), (float) (arrayToDisplay[s]*scaleX), (float) (s*scaleY+scaleY), paint);
         //TODO play sound
         
-        try {
-          wait(10); // small delay before playing next
-        } catch (InterruptedException e) {
-          Log.w(UPDATE_SORT_VIEW_TAG, "Unable to pause the sort completed thread. Dunno why.\n" + e.toString() );
-        } // end try catch
-      } // end for
-    } // end else
+        paint.setColor(Color.WHITE);
+        lastDisplayedArray[s] = arrayToDisplay[s];
+      } //end if
+        
+      else {
+        canvas.drawRect( (float)(0), (float) (s*scaleY), (float) (arrayToDisplay[s]*scaleX), (float) (s*scaleY+scaleY), paint);
+      } // end else
+    } // end for
   } // end onDraw(Canvas)
   
   public void updateArray(int[] updatedArray) { arrayToDisplay = updatedArray; }
