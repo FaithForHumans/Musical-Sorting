@@ -25,6 +25,7 @@ public class UpdateSortView extends View {
   public UpdateSortView(Context context, int[] origionalArray, int length) {
     super(context);
     arrayLength = length;
+    arrayToDisplay = origionalArray;
     lastDisplayedArray = new int[arrayLength];
     for(int s = 0; s < arrayLength; s++) {
       lastDisplayedArray[s] = origionalArray[s];

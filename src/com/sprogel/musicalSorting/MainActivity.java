@@ -1,5 +1,6 @@
 package com.sprogel.musicalSorting;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,6 +17,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -53,6 +56,8 @@ public class MainActivity extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    requestWindowFeature(Window.FEATURE_NO_TITLE);
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     setContentView(R.layout.activity_main);
     
     //get the elements of the view to be displayed
@@ -78,7 +83,7 @@ public class MainActivity extends Activity {
       
       @Override
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        currentProgress = progress;
+        currentProgress = (progress < 1) ? 1 : progress;
       } // end onProgressChanged(SeekBar, int, boolean)
 
       //No need to do anything when start touched
@@ -132,8 +137,8 @@ public class MainActivity extends Activity {
       } // end onClick(View)
     }); // end setOnClickListner(onClickListener)
     
-    numElem.setProgress(100);
-    updateLen.setProgress(10);
+    numElem.setProgress( 500 );
+    updateLen.setProgress( 3 );
     
     //initialize the array to sort to null
     arrayLength = 0;
@@ -169,15 +174,19 @@ public class MainActivity extends Activity {
     switch ( selectedItemOrder.getCheckedRadioButtonId() ) {
     case (R.id.randomSorted):
       makeRandomSortedArray();
+      Log.v(MAIN_ACTIVITY_TAG, "Made random sorted array");
       break;
     case (R.id.reverseSorted):
       makeReverseSortedArray();
+      Log.v(MAIN_ACTIVITY_TAG, "Made reverse sorted array");
       break;
     case (R.id.nearSorted):
       makeNearlySortedArray();
+      Log.v(MAIN_ACTIVITY_TAG, "Made nearly array");
       break;
     case (R.id.sorted):
       makeSortedArray();
+      Log.v(MAIN_ACTIVITY_TAG, "Made sorted array");
       break;
     default:
       Toast.makeText(this, "You broke something... :D", Toast.LENGTH_SHORT).show();
@@ -185,15 +194,18 @@ public class MainActivity extends Activity {
     
     syncToken = new Object();
     
+    
     switch ( selectedSort.getCheckedRadioButtonId() ) {
     case (R.id.bitonicSort):
       //TODO
       break;
     case (R.id.bogoSort):
       sortThread = new BogoSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
+      Log.v(MAIN_ACTIVITY_TAG,"Bogo Sort");
       break;
     case (R.id.bubbleSort):
       sortThread = new BubbleSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
+    Log.v(MAIN_ACTIVITY_TAG,"Bubble Sort");
       break;
     case (R.id.heapSort):
       //TODO
@@ -203,31 +215,49 @@ public class MainActivity extends Activity {
       break;
     case (R.id.mergeSort):
       sortThread = new MergeSort(arrayToSort, arrayLength, threadUpdateLength, syncToken);
+    Log.v(MAIN_ACTIVITY_TAG,"Merge Sort");
       break;
     case (R.id.quickSort):
       sortThread = new QuickSort(arrayToSort, arrayLength, threadUpdateLength, syncToken);
+    Log.v(MAIN_ACTIVITY_TAG,"Quick Sort");
       break;
     case (R.id.radixSort):
       sortThread = new RadixSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
+    Log.v(MAIN_ACTIVITY_TAG,"Radix Sort");
       break;
     case (R.id.selectionSort):
       sortThread = new SelectionSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
+    Log.v(MAIN_ACTIVITY_TAG,"Selection Sort");
       break;
     case (R.id.shellSort):
       sortThread = new ShellSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
+    Log.v(MAIN_ACTIVITY_TAG,"Shell Sort");
       break;
     default:
       Toast.makeText(this, "Umm... You broke something! :D", Toast.LENGTH_SHORT).show();
+      Log.v(MAIN_ACTIVITY_TAG,"Bogo Sort");
     } // end switch(selectedSort)
     
     sortView = new UpdateSortView(this, arrayToSort, arrayLength);
     sortView.setBackgroundColor( Color.BLACK );
     setContentView(sortView);
+
+    sortView.invalidate();
+//    sortView.postInvalidate();
+
+//  sortTimer = new Timer();
+//  sortTimer.scheduleAtFixedRate(new SortController(), 0, 30
     
     //start the sorting thread
-    sortThread.run();
-    sortTimer = new Timer();
-    sortTimer.scheduleAtFixedRate(new SortController(), 0, threadUpdateLength);
+    sortThread.start();
+    
+    while( sortThread.isAlive() ) {
+    }
+//    sortView.postInvalidate();
+    sortView.invalidate();
+    Log.v(MAIN_ACTIVITY_TAG, "Finished Sorting");
+    Log.v(MAIN_ACTIVITY_TAG, Arrays.toString(arrayToSort));
+    
   } // end onSubmit
   
   private void makeSortedArray() {
@@ -245,7 +275,7 @@ public class MainActivity extends Activity {
   private void makeRandomSortedArray() {
     makeSortedArray();
     for(int s = 0; s < arrayLength*10; s++) {
-      swap( arrayToSort[nextRandom(1,arrayLength)], arrayToSort[nextRandom(1,arrayLength)] );
+      swap( nextRandom(0,arrayLength-1), nextRandom(0,arrayLength-1) );
     } // end for
   } // end makeRandomSortedArray()
 
@@ -259,9 +289,9 @@ public class MainActivity extends Activity {
   } // end makeNearlySortedArray
   
   private void swap(int first, int second) {
-    int temp = first;
-    first = second;
-    second = temp;
+    int temp = arrayToSort[first];
+    arrayToSort[first] = arrayToSort[second];
+    arrayToSort[second] = temp;
   } // end swap(int, int)
   
   private int nextRandom(int min, int max) { return randomGenerator.nextInt(max - min + 1) + min; }
@@ -270,6 +300,7 @@ public class MainActivity extends Activity {
     
     @Override
     public void run() {
+      /*
       try {
         if( sortThread.isAlive() ) {
           syncToken.wait();
@@ -288,6 +319,8 @@ public class MainActivity extends Activity {
         Toast.makeText(getApplicationContext(), "Failed to pause the sorting thread.", Toast.LENGTH_SHORT).show();
         Log.e( MAIN_ACTIVITY_TAG, "Failed to pause sorting thread.\n" + e.toString() );
       } // end try catch
+      */
+      sortView.invalidate();
     } // end run()
   } // end class SortController
 } //end class MainActivity
