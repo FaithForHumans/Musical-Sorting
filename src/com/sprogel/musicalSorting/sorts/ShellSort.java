@@ -49,7 +49,7 @@ public class ShellSort extends Thread
       if(increment == 2){
         increment = 1;
       } else {
-        increment *= .5 / 11;
+        increment *= 5.0 / 11;
       }
     }
   }
