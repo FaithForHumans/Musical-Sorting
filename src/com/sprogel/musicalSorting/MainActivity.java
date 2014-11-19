@@ -10,6 +10,7 @@ import com.sprogel.musicalSorting.sorts.*;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -208,10 +209,10 @@ public class MainActivity extends Activity {
     Log.v(MAIN_ACTIVITY_TAG,"Bubble Sort");
       break;
     case (R.id.heapSort):
-      //TODO
+      sortThread = new HeapSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
       break;
     case (R.id.insertionSort):
-      //TODO
+      sortThread = new InsertionSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
       break;
     case (R.id.mergeSort):
       sortThread = new MergeSort(arrayToSort, arrayLength, threadUpdateLength, syncToken);
@@ -242,7 +243,7 @@ public class MainActivity extends Activity {
     sortView.setBackgroundColor( Color.BLACK );
     setContentView(sortView);
 
-    sortView.invalidate();
+//    sortView.invalidate();
 //    sortView.postInvalidate();
 
 //  sortTimer = new Timer();
@@ -251,12 +252,14 @@ public class MainActivity extends Activity {
     //start the sorting thread
     sortThread.start();
     
-    while( sortThread.isAlive() ) {
-    }
-//    sortView.postInvalidate();
-    sortView.invalidate();
-    Log.v(MAIN_ACTIVITY_TAG, "Finished Sorting");
-    Log.v(MAIN_ACTIVITY_TAG, Arrays.toString(arrayToSort));
+    new updateUiThread().execute();
+    
+//    while( sortThread.isAlive() ) {
+//    }
+////    sortView.postInvalidate();
+//    sortView.invalidate();
+//    Log.v(MAIN_ACTIVITY_TAG, "Finished Sorting");
+//    Log.v(MAIN_ACTIVITY_TAG, Arrays.toString(arrayToSort));
     
   } // end onSubmit
   
@@ -296,31 +299,58 @@ public class MainActivity extends Activity {
   
   private int nextRandom(int min, int max) { return randomGenerator.nextInt(max - min + 1) + min; }
   
-  private class SortController extends TimerTask {
-    
+  private class updateUiThread extends AsyncTask<Void, Void, Void> {
+    /** The system calls this to perform work in a worker thread and
+      * delivers it the parameters given to AsyncTask.execute() */
     @Override
-    public void run() {
-      /*
+    protected Void doInBackground(Void... arg0) {
+      // TODO Auto-generated method stub
       try {
-        if( sortThread.isAlive() ) {
-          syncToken.wait();
-          sortView.invalidate();
-          synchronized (syncToken) {
-            syncToken.notifyAll();
-          } // end synchronized (syncToken)
-        } // end if
-        else {
-          sortView.sortCompleted();
-          sortView.invalidate();
-          sortTimer.cancel();
-        } // end else
-        
-      } catch ( InterruptedException e ) {
-        Toast.makeText(getApplicationContext(), "Failed to pause the sorting thread.", Toast.LENGTH_SHORT).show();
-        Log.e( MAIN_ACTIVITY_TAG, "Failed to pause sorting thread.\n" + e.toString() );
-      } // end try catch
-      */
+        Log.v("BLAH","Waiting...");
+        wait(30);
+      } catch (Exception e) {
+        Log.v( MAIN_ACTIVITY_TAG, "Error in background: " + e.toString() );
+      }
+      return null;
+    }
+    
+    /** The system calls this to perform work in the UI thread and delivers
+      * the result from doInBackground() */
+    protected void onPostExecute(Void arg0) {
       sortView.invalidate();
-    } // end run()
-  } // end class SortController
-} //end class MainActivity
+      
+      new updateUiThread().execute();
+      
+      return;
+    }
+  }
+}
+  
+//  private class SortController extends TimerTask {
+//    
+//    @Override
+//    public void run() {
+//      /*
+//      try {
+//        if( sortThread.isAlive() ) {
+//          syncToken.wait();
+//          sortView.invalidate();
+//          synchronized (syncToken) {
+//            syncToken.notifyAll();
+//          } // end synchronized (syncToken)
+//        } // end if
+//        else {
+//          sortView.sortCompleted();
+//          sortView.invalidate();
+//          sortTimer.cancel();
+//        } // end else
+//        
+//      } catch ( InterruptedException e ) {
+//        Toast.makeText(getApplicationContext(), "Failed to pause the sorting thread.", Toast.LENGTH_SHORT).show();
+//        Log.e( MAIN_ACTIVITY_TAG, "Failed to pause sorting thread.\n" + e.toString() );
+//      } // end try catch
+//      */
+//      sortView.invalidate();
+//    } // end run()
+//  } // end class SortController
+//} //end class MainActivity

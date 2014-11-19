@@ -1,10 +1,13 @@
 package com.sprogel.musicalSorting.sorts;
 
+import android.util.Log;
+
 public class ShellSort extends Thread
 {
   private int length, timeDelay;
   private int[] array;
   private Object syncToken;
+  private final String SHELLSORT_TAG = "Shell Sort"; 
 
   public ShellSort(int len, int[] arr, int delay, Object token)
   {
@@ -21,7 +24,7 @@ public class ShellSort extends Thread
       sort();
     }
   }
-
+  
   private void sort()
   {
     int increment = length / 2;
@@ -29,6 +32,11 @@ public class ShellSort extends Thread
     {
       for(int i = 0; i < length; i++)
       {
+        try{
+              Thread.sleep(timeDelay);
+        }catch(InterruptedException e){
+          Log.w(SHELLSORT_TAG, "Unable to pause Shell Sort.\n" + e.toString() );
+        }
         int j = i;
         int tmp = array[i];
         while(j >= increment && array[j - increment] > tmp)
