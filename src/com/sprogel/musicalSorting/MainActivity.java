@@ -52,7 +52,6 @@ public class MainActivity extends Activity {
   private Thread sortThread; // the thread that contains the sort to be ran
   public Object syncToken; // the token that controls sortThread wait and notify
   private UpdateSortView sortView; // the view that draws the visual representation o the screen
-  private drawAllOfThePrettyColors endDraw;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +121,7 @@ public class MainActivity extends Activity {
     numElements.setOnEditorActionListener(new OnEditorActionListener() {
       @Override
       public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_DONE) {
+        if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
           numElem.setProgress( Integer.parseInt( numElements.getText().toString() ) );
           
           return true;
@@ -130,6 +129,18 @@ public class MainActivity extends Activity {
         return false;
       } // end onEditorAction(TextView, int, KeyEvent)
     }); // end OnEditorActionListner()
+    updateLength.setOnEditorActionListener(new OnEditorActionListener() {
+      @Override
+      public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+          updateLen.setProgress( Integer.parseInt( updateLength.getText().toString() ) );
+          
+          return true;
+        } // end if
+        return false;
+      } // end onEditorAction(TextView, int, KeyEvent)
+    }); // end OnEditorActionListner()
+    
     //Listener for the on submit button
     submitButton.setOnClickListener(new OnClickListener() {
       @Override
@@ -167,21 +178,22 @@ public class MainActivity extends Activity {
     return super.onOptionsItemSelected(item);
   } // end onOptionsSelected(MenuItem)
   
-  @Override
-  public boolean onKeyDown(int keyCode, KeyEvent event) {
-    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-      if(sortView.getVisibility() == View.VISIBLE) {
-        setContentView(R.layout.activity_main);
-      }
-      else {
-        finish();
-      }
-      
-      return true;
-    }
-    
-    return super.onKeyDown(keyCode, event);
-  }
+//  @Override
+//  public boolean onKeyDown(int keyCode, KeyEvent event) {
+//    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+//      if(sortView.getVisibility() == View.VISIBLE) {
+//        sortView.setVisibility(View.GONE);
+//        setContentView(R.layout.activity_main);
+//      }
+//      else {
+//        finish();
+//      }
+//      
+//      return true;
+//    }
+//    
+//    return super.onKeyDown(keyCode, event);
+//  }
   
   private void onSubmit() {
     arrayLength = Integer.parseInt( numElements.getText().toString() );
@@ -213,16 +225,16 @@ public class MainActivity extends Activity {
     
     
     switch ( selectedSort.getCheckedRadioButtonId() ) {
-    case (R.id.bitonicSort):
-      //TODO
-      break;
+//    case (R.id.bitonicSort):
+//      //TODO
+//      break;
     case (R.id.bogoSort):
       sortThread = new BogoSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
       Log.v(MAIN_ACTIVITY_TAG,"Bogo Sort");
       break;
     case (R.id.bubbleSort):
       sortThread = new BubbleSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
-    Log.v(MAIN_ACTIVITY_TAG,"Bubble Sort");
+      Log.v(MAIN_ACTIVITY_TAG,"Bubble Sort");
       break;
     case (R.id.heapSort):
       sortThread = new HeapSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
@@ -232,23 +244,23 @@ public class MainActivity extends Activity {
       break;
     case (R.id.mergeSort):
       sortThread = new MergeSort(arrayToSort, arrayLength, threadUpdateLength, syncToken);
-    Log.v(MAIN_ACTIVITY_TAG,"Merge Sort");
+      Log.v(MAIN_ACTIVITY_TAG,"Merge Sort");
       break;
     case (R.id.quickSort):
       sortThread = new QuickSort(arrayToSort, arrayLength, threadUpdateLength, syncToken);
-    Log.v(MAIN_ACTIVITY_TAG,"Quick Sort");
+      Log.v(MAIN_ACTIVITY_TAG,"Quick Sort");
       break;
     case (R.id.radixSort):
       sortThread = new RadixSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
-    Log.v(MAIN_ACTIVITY_TAG,"Radix Sort");
+      Log.v(MAIN_ACTIVITY_TAG,"Radix Sort");
       break;
-    case (R.id.selectionSort):
-      sortThread = new SelectionSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
-    Log.v(MAIN_ACTIVITY_TAG,"Selection Sort");
-      break;
+//    case (R.id.selectionSort):
+//      sortThread = new SelectionSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
+//      Log.v(MAIN_ACTIVITY_TAG,"Selection Sort");
+//      break;
     case (R.id.shellSort):
       sortThread = new ShellSort(arrayLength, arrayToSort, threadUpdateLength, syncToken);
-    Log.v(MAIN_ACTIVITY_TAG,"Shell Sort");
+      Log.v(MAIN_ACTIVITY_TAG,"Shell Sort");
       break;
     default:
       Toast.makeText(this, "Umm... You broke something! :D", Toast.LENGTH_SHORT).show();
@@ -258,25 +270,12 @@ public class MainActivity extends Activity {
     sortView = new UpdateSortView(this, arrayToSort, arrayLength);
     sortView.setBackgroundColor( Color.BLACK );
     setContentView(sortView);
-
-//    sortView.invalidate();
-//    sortView.postInvalidate();
-
-//  sortTimer = new Timer();
-//  sortTimer.scheduleAtFixedRate(new SortController(), 0, 30
     
     //start the sorting thread
     sortThread.start();
     
     new updateUiThread().execute();
-    
-//    while( sortThread.isAlive() ) {
-//    }
-////    sortView.postInvalidate();
-//    sortView.invalidate();
-//    Log.v(MAIN_ACTIVITY_TAG, "Finished Sorting");
-//    Log.v(MAIN_ACTIVITY_TAG, Arrays.toString(arrayToSort));
-    
+
   } // end onSubmit
   
   private void makeSortedArray() {
@@ -335,48 +334,12 @@ public class MainActivity extends Activity {
         
         return;
       } // end if
+
+      sortView.invalidate();
       
-      endDraw = new drawAllOfThePrettyColors( getApplicationContext(), arrayLength);
-      endDraw.setBackgroundColor( Color.BLACK );
-      setContentView(sortView);
-      
-      new EndDraw().execute();
+      new updateUiThread().execute();
       
       return;
     } // end onPostExecute(Void)
   } // end class updateUiThread
-  
-  private class EndDraw extends AsyncTask<Void, Void, Void> {
-    @Override
-    protected Void doInBackground(Void... arg0) {
-      try {
-        Thread.sleep(10);
-      } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-      
-      return null;
-    }
-    
-    protected void onPostExecute(Void arg0) {
-      if ( endDraw.stopUpdatingMe() ) {
-        endDraw.invalidate();
-        try {
-          Thread.sleep(10);
-        } catch (InterruptedException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-        setContentView(R.layout.activity_main);
-        return;
-      }
-      
-      endDraw.invalidate();
-      
-      new EndDraw().execute();
-      return;
-    } // end onPostExecute(Void)
-    
-  } // end class EndDraw
 } // end class MainActivity

@@ -76,12 +76,12 @@
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="5" >
-
+<!-- 
                     <RadioButton
                         android:id="@+id/bitonicSort"
                         style="@style/radioButton"
                         android:text="@string/bitonicSort" />
-
+-->
                     <RadioButton
                         android:id="@+id/bogoSort"
                         style="@style/radioButton"
@@ -117,12 +117,12 @@
                         android:id="@+id/radixSort"
                         style="@style/radioButton"
                         android:text="@string/radixSort" />
-    
+   <!--  
                     <RadioButton
                         android:id="@+id/selectionSort"
                         style="@style/radioButton"
                         android:text="@string/selectionSort" />
-    
+    -->
                     <RadioButton
                         android:id="@+id/shellSort"
                         style="@style/radioButton"

@@ -15,7 +15,6 @@ public class UpdateSortView extends View {
   private int[] arrayToDisplay;
   private int arrayLength;
   private int[] lastDisplayedArray;
-  private boolean sortHasBeenFinished;
 
   private Paint paint;
   private double scaleX,scaleY;
@@ -32,7 +31,6 @@ public class UpdateSortView extends View {
     } // end for
     
     paint = new Paint();
-    sortHasBeenFinished = false;
     
     WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
     Display display = windowManager.getDefaultDisplay();
@@ -52,7 +50,6 @@ public class UpdateSortView extends View {
         paint.setColor(Color.RED);
         
         canvas.drawRect( (float)(0), (float) (s*scaleY), (float) (arrayToDisplay[s]*scaleX), (float) (s*scaleY+scaleY), paint);
-        //TODO play sound
         
         paint.setColor(Color.WHITE);
         lastDisplayedArray[s] = arrayToDisplay[s];
@@ -65,6 +62,5 @@ public class UpdateSortView extends View {
   } // end onDraw(Canvas)
   
   public void updateArray(int[] updatedArray) { arrayToDisplay = updatedArray; }
-  public void sortCompleted() { sortHasBeenFinished = true; }
 
 } // end class
