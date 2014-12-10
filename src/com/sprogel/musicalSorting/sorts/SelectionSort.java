@@ -6,6 +6,7 @@ public class SelectionSort extends Thread
   private int length, timeDelay;
   private int[] array;
   private Object syncToken;
+  private final String SELECTION_SORT_TAG = "Selection Sort";
 
   public SelectionSort(int len, int[] arr, int delay, Object token)
   {
@@ -31,6 +32,11 @@ public class SelectionSort extends Thread
       minIndex = i;
       for (int j = i + 1; j < length; j++)
       {
+        try{
+              Thread.sleep(delay);
+        }catch(InterruptedException e){
+          Log.w(SELECTION_SORT_TAG, "Unable to pause Selection Sort.\n" + e.toString() );
+        }
         if (array[j] < array[minIndex])
         {
           minIndex = j;
